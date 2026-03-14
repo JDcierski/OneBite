@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Quest for the One-Bite</title>
+  <style>
+    :root {
+      --bg1: #0f1020;
+      --bg2: #1f1433;
+      --gold: #f5d06f;
+      --gold2: #ffefb0;
+      --wine: #5f1738;
+      --plum: #2f143f;
+      --card: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.18);
+      --text: #f8f5ef;
+      --muted: #d8d0c2;
+      --shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top, rgba(255,223,120,0.18), transparent 30%),
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08), transparent 18%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06), transparent 15%),
+        linear-gradient(135deg, var(--bg1), var(--plum) 45%, var(--wine));
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .hero {
+      padding: 72px 20px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .crest {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(245, 208, 111, 0.45);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--gold2);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      box-shadow: 0 0 30px rgba(245, 208, 111, 0.12);
+    }
+
+    h1 {
+      margin: 20px auto 10px;
+      max-width: 1100px;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.45);
+    }
+
+    .subtitle {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .wrapper {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto 60px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 24px 28px 10px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+    }
+
+    .panel p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .podium {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: end;
+      padding: 24px 24px 30px;
+    }
+
+    .podium-card {
+      position: relative;
+      border-radius: 24px 24px 18px 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 24px 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .podium-card.first {
+      min-height: 340px;
+      background: linear-gradient(180deg, rgba(245,208,111,0.30), rgba(255,255,255,0.06));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 50px rgba(245,208,111,0.18), 0 20px 45px rgba(0,0,0,0.28);
+    }
+
+    .podium-card.second { min-height: 285px; }
+    .podium-card.third { min-height: 250px; }
+
+    .medal {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #1c1724;
+      background: radial-gradient(circle at 30% 30%, #fff8d9, var(--gold));
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .second .medal { background: radial-gradient(circle at 30% 30%, #ffffff, #cfd7e5); }
+    .third .medal { background: radial-gradient(circle at 30% 30%, #ffe6c2, #c98b56); }
+
+    .rank-label {
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold2);
+    }
+
+    .name {
+      font-size: clamp(1.3rem, 2.8vw, 2.2rem);
+      margin-top: 10px;
+      font-weight: 700;
+    }
+
+    .score {
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      margin-top: 8px;
+      color: var(--gold2);
+      text-shadow: 0 0 20px rgba(245,208,111,0.22);
+    }
+
+    .score span {
+      display: block;
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .table-wrap {
+      padding: 4px 24px 28px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    th, td {
+      padding: 18px 16px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      text-align: left;
+    }
+
+    th {
+      color: var(--gold2);
+      font-size: 0.9rem;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:hover {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(245,208,111,0.12);
+      border: 1px solid rgba(245,208,111,0.28);
+      color: var(--gold2);
+      font-size: 0.88rem;
+    }
+
+    .yard-house {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 0;
+    }
+
+    .yard-copy, .yard-actions {
+      padding: 28px;
+    }
+
+    .yard-actions {
+      border-left: 1px solid rgba(255,255,255,0.1);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    }
+
+    .location-card {
+      padding: 18px;
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .location-card strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+      color: var(--gold2);
+    }
+
+    .steps {
+      margin: 16px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(245,208,111,0.35);
+      border-radius: 999px;
+      padding: 12px 18px;
+      color: #1d1625;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(180deg, #fff2be, var(--gold));
+      box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.16);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.28);
+    }
+
+    .footer {
+      text-align: center;
+      color: rgba(255,255,255,0.62);
+      padding: 10px 20px 50px;
+      font-size: 0.95rem;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 0 16px rgba(255,255,255,0.9);
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(0.8); opacity: 0; }
+      20% { opacity: 0.8; }
+      to { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    @media (max-width: 900px) {
+      .podium {
+        grid-template-columns: 1fr;
+      }
+
+      .podium-card.first,
+      .podium-card.second,
+      .podium-card.third {
+        min-height: unset;
+      }
+
+      .yard-house {
+        grid-template-columns: 1fr;
+      }
+
+      .yard-actions {
+        border-left: 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="sparkles"></div>
+
+  <section class="hero">
+    <div class="crest">Hall of Culinary Glory</div>
+    <h1>The Quest for the One-Bite</h1>
+    <p class="subtitle">
+      A monument of appetite, valor, and statistically questionable bite-counting.
+      Here stand the champions, the contenders, and the legends of the table.
+    </p>
+  </section>
+
+  <main class="wrapper">
+    <section class="panel">
+      <div class="panel-header">
+        <div class="eyebrow">Crowning the elite</div>
+        <h2>The Sacred Podium</h2>
+        <p>Few ascend. Fewer endure. Only the mightiest names earn their place among the gilded ranks.</p>
+      </div>
+      <div class="podium" id="podium"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div class="eyebrow">Official record</div>
+        <h2>Full Ranking Ledger</h2>
+        <p>Ordered by bite count, from heroic efficiency to glorious effort.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Competitor</th>
+              <th>Bites</th>
+              <th>Title</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel yard-house">
+      <div class="yard-copy">
+        <div class="eyebrow">Pilgrimage of champions</div>
+        <h2>Nearest Yard House</h2>
+        <p>
+          Every glorious leaderboard deserves a proper banquet hall. This page points visitors toward the nearest Yard House we could identify for the Pittsburgh area.
+        </p>
+
+        <div class="location-card">
+          <strong>Yard House, King of Prussia Mall</strong>
+          <div>160 N Gulph Rd, King of Prussia, PA 19406</div>
+          <div>(610) 265-3584</div>
+        </div>
+
+        <ol class="steps">
+          <li>From Pittsburgh, head east toward the Pennsylvania Turnpike / I-76 corridor.</li>
+          <li>Continue toward the King of Prussia / Valley Forge area.</li>
+          <li>Use the live directions button for the exact route and traffic-aware navigation.</li>
+        </ol>
+      </div>
+
+      <div class="yard-actions">
+        <div class="eyebrow">Navigation</div>
+        <h2>Choose Your Route</h2>
+        <p>
+          For exact travel time and turn-by-turn directions, launch your preferred map app below.
+        </p>
+        <div class="buttons">
+          <a class="btn" href="https://www.google.com/maps/dir/Pittsburgh,+PA/Yard+House,+160+N+Gulph+Rd,+King+of+Prussia,+PA+19406/" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
+          <a class="btn secondary" href="https://www.apple.com/maps/?daddr=Yard+House,+160+N+Gulph+Rd,+King+of+Prussia,+PA+19406&dirflg=d" target="_blank" rel="noopener noreferrer">Open Apple Maps</a>
+          <a class="btn secondary" href="https://www.yardhouse.com/locations/pa/king-of-prussia/king-of-prussia-king-of-prussia-mall/8371" target="_blank" rel="noopener noreferrer">Official Location Page</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    Built for GitHub Pages. Made absurdly dramatic on purpose.
+  </div>
+
+  <script>
+    const rankings = [
+      { name: "John", bites: 2, note: "two bites" },
+      { name: "John", bites: 3, note: "three bites" },
+      { name: "Teddy", bites: 4, note: "four bites" },
+      { name: "Kacper", bites: 8, note: "7 or 8 bites" },
+      { name: "Varun", bites: 10, note: "ten bites I think" }
+    ].sort((a, b) => a.bites - b.bites);
+
+    const titles = [
+      "Supreme Devourer",
+      "Silver Jaw of Destiny",
+      "Bronze Baron of Bites",
+      "Honorable Chew Commander",
+      "Valiant Finisher"
+    ];
+
+    const podiumOrder = [1, 0, 2];
+    const podiumClasses = ["second", "first", "third"];
+    const podiumRanks = [2, 1, 3];
+
+    const podium = document.getElementById("podium");
+    podiumOrder.forEach((idx, i) => {
+      const entry = rankings[idx];
+      if (!entry) return;
+      const card = document.createElement("article");
+      card.className = `podium-card ${podiumClasses[i]}`;
+      card.innerHTML = `
+        <div class="medal">${podiumRanks[i]}</div>
+        <div class="rank-label">Place ${podiumRanks[i]}</div>
+        <div class="name">${entry.name}</div>
+        <div class="score">${entry.bites}<span>${entry.note}</span></div>
+      `;
+      podium.appendChild(card);
+    });
+
+    const body = document.getElementById("leaderboard-body");
+    rankings.forEach((entry, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>#${index + 1}</td>
+        <td>${entry.name}</td>
+        <td>${entry.bites}</td>
+        <td><span class="badge">${titles[index] || "Legendary Participant"}</span></td>
+      `;
+      body.appendChild(row);
+    });
+
+    const sparkles = document.getElementById("sparkles");
+    for (let i = 0; i < 26; i++) {
+      const s = document.createElement("div");
+      s.className = "sparkle";
+      s.style.left = `${Math.random() * 100}vw`;
+      s.style.top = `${70 + Math.random() * 30}vh`;
+      s.style.animationDuration = `${7 + Math.random() * 8}s`;
+      s.style.animationDelay = `${Math.random() * 10}s`;
+      sparkles.appendChild(s);
+    }
+  </script>
+</body>
+</html>
